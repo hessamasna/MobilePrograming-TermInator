@@ -1,15 +1,29 @@
 package com.cip.TermInator.model;
 
+import androidx.room.Entity;
+import androidx.room.*;
+
 import java.util.ArrayList;
 
+@Entity
 public class Course {
+    @PrimaryKey(autoGenerate = true)
+    public int uid;
+    @ColumnInfo(name = "id")
     private int id;
+    @ColumnInfo(name = "info")
     private String info;
+    @ColumnInfo(name = "course_id")
     private String course_id;
+    @ColumnInfo(name = "course_number")
     private int course_number;
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "units")
     private int units;
+    @ColumnInfo(name = "capacity")
     private int capacity;
+    @ColumnInfo(name = "instructor")
     private String instructor;
     private ArrayList<CourseTime> courseTime;
     private String exam_time;
@@ -118,7 +132,6 @@ public class Course {
                 ", units=" + units +
                 ", capacity=" + capacity +
                 ", instructor='" + instructor + '\'' +
-                ", classTime=" + courseTime +
                 ", exam_time='" + exam_time + '\'' +
                 '}';
     }
