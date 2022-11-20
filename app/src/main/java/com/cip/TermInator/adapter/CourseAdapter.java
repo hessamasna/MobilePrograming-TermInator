@@ -47,12 +47,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
     class CourseHolder extends RecyclerView.ViewHolder {
 
-        private TextView course_name, course_time_1, course_time_2, course_instructor, course_units;
+        private TextView course_name_view, course_time_1, course_time_2, course_instructor, course_units;
 
 
         public CourseHolder(@NonNull View itemView) {
             super(itemView);
-            course_name = itemView.findViewById(R.id.course_name);
+            course_name_view = itemView.findViewById(R.id.course_name_view);
             course_time_1 = itemView.findViewById(R.id.course_time_1);
             course_time_2 = itemView.findViewById(R.id.course_time_2);
             course_instructor = itemView.findViewById(R.id.course_instructor);
@@ -60,7 +60,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         }
 
         public void setData(Course course){
-            course_name.setText(course.getName());
+            course_name_view.setText(course.getName());
             course_time_1.setText("start");
             course_time_2.setText("start2");
             course_instructor.setText(course.getInstructor());
