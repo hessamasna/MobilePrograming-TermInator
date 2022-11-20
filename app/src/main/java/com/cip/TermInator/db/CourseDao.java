@@ -14,6 +14,9 @@ public interface CourseDao {
     @Query("SELECT * FROM course")
     List<Course> getAllCourses();
 
+    @Query("SELECT * FROM course WHERE university_faculties LIKE :name")
+    List<Course> selectUniversityFaculties(String name);
+
     @Insert
     void insertCourse(Course... courses);
 
@@ -23,6 +26,4 @@ public interface CourseDao {
     @Query("DELETE FROM course")
     void deleteAll();
 
-    @Query("DELETE FROM course WHERE university_faculties LIKE :name")
-    void selectUniversityFaculties(String name);
 }
