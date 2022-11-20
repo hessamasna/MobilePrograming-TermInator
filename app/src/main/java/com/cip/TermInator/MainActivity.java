@@ -5,58 +5,110 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.cip.TermInator.adapter.CourseAdapter;
+import com.cip.TermInator.adapter.UniversityFacultiesAdapter;
+import com.cip.TermInator.db.AppDatabase;
 import com.cip.TermInator.model.Course;
-import com.cip.TermInator.model.CourseTime;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Course> courseArrayList;
+    private List<Course> courseList;
+    private HashMap<String, String> universityFaculties = new HashMap<String, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.Classes_view);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        courseArrayList = new ArrayList<>();
-
-        CourseAdapter courseAdapter = new CourseAdapter(this, courseArrayList);
-        recyclerView.setAdapter(courseAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
+        loadUniversityFaculties();
         initialData();
+        loadCourses();
+
+        setCoursesRecyclerView();
+        setFacultiesRecyclerView();
 
     }
 
+    private void setCoursesRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.Classes_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        CourseAdapter courseAdapter = new CourseAdapter(this, courseList);
+        recyclerView.setAdapter(courseAdapter);
+
+    }
+
+    private void setFacultiesRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.university_faculties_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        List<String> Faculties = new ArrayList<String>(universityFaculties.keySet());
+        UniversityFacultiesAdapter universityFacultiesAdapter = new UniversityFacultiesAdapter(this, Faculties);
+        recyclerView.setAdapter(universityFacultiesAdapter);
+    }
+
+
+    private void loadUniversityFaculties() {
+        universityFaculties.put("Math", "3.json");
+        universityFaculties.put("Physics", "5.json");
+        universityFaculties.put("Ce", "38.json");
+    }
+
+    private void loadCourses() {
+        AppDatabase db = AppDatabase.getDbInstance(this.getApplicationContext());
+//        courseList = db.courseDao().getAllCourses();
+        courseList = db.courseDao().selectUniversityFaculties("Physics");
+    }
+
     private void initialData() {
-        ArrayList<CourseTime> courseTimes = new ArrayList<>();
-        courseTimes.add(new CourseTime(1, "start", "End", "day"));
-        courseTimes.add(new CourseTime(2, "start", "End", "day"));
-        Course course = new Course(1, "info", "course_id", 2, "name", 3, 4, "instructor", "exam");
-        course.setClassTime(courseTimes);
+        AppDatabase db = AppDatabase.getDbInstance(this.getApplicationContext());
+        db.courseDao().deleteAll();
 
+        for (String i : universityFaculties.keySet()) {
+            db.courseDao().insertCourse(readJson(i, universityFaculties.get(i)));
+        }
 
-        courseArrayList.add(course);
+    }
+
+    private Course[] readJson(String universityFaculty, String path) {
+        StringBuilder returnString = new StringBuilder();
+        Gson gson = new Gson();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("json/" + path)));
+
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                returnString.append(mLine);
+            }
+        } catch (IOException e) {
+            Log.d("Status:", "fucked Up");
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    Log.d("Status:", "fucked Up");
+                }
+            }
+        }
+        Course[] courses = gson.fromJson(String.valueOf(returnString), Course[].class);
+        for (Course course : courses) {
+            course.setUniversityFaculties(universityFaculty);
+        }
+        return courses;
     }
 
 
