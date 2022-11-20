@@ -1,12 +1,13 @@
 package com.cip.TermInator;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.cip.TermInator.adapter.CourseAdapter;
 import com.cip.TermInator.adapter.UniversityFacultiesAdapter;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadUniversityFaculties();
         initialData();
-        loadCourses();
+        loadCourses("ALL");
 
         setCoursesRecyclerView();
         setFacultiesRecyclerView();
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setFacultiesRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.university_faculties_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         List<String> Faculties = new ArrayList<String>(universityFaculties.keySet());
         UniversityFacultiesAdapter universityFacultiesAdapter = new UniversityFacultiesAdapter(this, Faculties);
@@ -65,10 +66,15 @@ public class MainActivity extends AppCompatActivity {
         universityFaculties.put("Ce", "38.json");
     }
 
-    private void loadCourses() {
+    public void loadCourses(String key) {
         AppDatabase db = AppDatabase.getDbInstance(this.getApplicationContext());
-//        courseList = db.courseDao().getAllCourses();
-        courseList = db.courseDao().selectUniversityFaculties("Physics");
+
+        if (key.equals("ALL"))
+            courseList = db.courseDao().getAllCourses();
+        else
+            courseList = db.courseDao().selectUniversityFaculties(key);
+
+        setCoursesRecyclerView();
     }
 
     private void initialData() {
@@ -112,4 +118,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void loadList(View view) {
+        TextView b = (TextView)view;
+        String buttonText = b.getText().toString();
+        loadCourses(buttonText);
+    }
 }
