@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/course_name"
+        android:id="@+id/course_name_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -55,7 +55,7 @@
         android:layout_marginEnd="24dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/course_name" />
+        app:layout_constraintTop_toBottomOf="@+id/course_name_view" />
 
     <TextView
         android:id="@+id/course_time_2"
@@ -65,5 +65,5 @@
         android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toStartOf="@+id/course_time_1"
-        app:layout_constraintTop_toBottomOf="@+id/course_name" />
+        app:layout_constraintTop_toBottomOf="@+id/course_name_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
