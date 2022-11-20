@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class Course {
     @PrimaryKey(autoGenerate = true)
     public int uid;
+    @ColumnInfo(name = "university_faculties")
+    private String universityFaculties;
     @ColumnInfo(name = "id")
     private int id;
     @ColumnInfo(name = "info")
@@ -25,11 +27,14 @@ public class Course {
     private int capacity;
     @ColumnInfo(name = "instructor")
     private String instructor;
-    private ArrayList<CourseTime> courseTime;
+    @ColumnInfo(name = "courseTime")
+    private String courseTime;
+    @ColumnInfo(name = "exam_time")
     private String exam_time;
 
-    public Course(int id, String info, String course_id, int course_number, String name, int units, int capacity, String instructor, String exam_time) {
+    public Course(int id, String info, String course_id, int course_number, String name, int units, int capacity, String instructor, String courseTime, String exam_time) {
         this.id = id;
+        this.universityFaculties = "";
         this.info = info;
         this.course_id = course_id;
         this.course_number = course_number;
@@ -37,7 +42,7 @@ public class Course {
         this.units = units;
         this.capacity = capacity;
         this.instructor = instructor;
-        this.courseTime = new ArrayList<>();
+        this.courseTime = courseTime;
         this.exam_time = exam_time;
     }
 
@@ -105,12 +110,28 @@ public class Course {
         this.instructor = instructor;
     }
 
-    public ArrayList<CourseTime> getClassTime() {
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getCourseTime() {
         return courseTime;
     }
 
-    public void setClassTime(ArrayList<CourseTime> courseTime) {
+    public void setCourseTime(String courseTime) {
         this.courseTime = courseTime;
+    }
+
+    public String getUniversityFaculties() {
+        return universityFaculties;
+    }
+
+    public void setUniversityFaculties(String universityFaculties) {
+        this.universityFaculties = universityFaculties;
     }
 
     public String getExam_time() {
@@ -121,18 +142,4 @@ public class Course {
         this.exam_time = exam_time;
     }
 
-    @Override
-    public String toString() {
-        return "course{" +
-                "id=" + id +
-                ", info='" + info + '\'' +
-                ", course_id='" + course_id + '\'' +
-                ", course_number=" + course_number +
-                ", name='" + name + '\'' +
-                ", units=" + units +
-                ", capacity=" + capacity +
-                ", instructor='" + instructor + '\'' +
-                ", exam_time='" + exam_time + '\'' +
-                '}';
-    }
 }
