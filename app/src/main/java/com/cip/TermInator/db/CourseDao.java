@@ -19,4 +19,10 @@ public interface CourseDao {
 
     @Delete
     void delete(Course course);
+
+    @Query("DELETE FROM course")
+    void deleteAll();
+
+    @Query("DELETE FROM course WHERE university_faculties LIKE :name")
+    void selectUniversityFaculties(String name);
 }
