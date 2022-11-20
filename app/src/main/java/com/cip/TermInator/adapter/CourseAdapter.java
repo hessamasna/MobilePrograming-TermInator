@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cip.TermInator.R;
 import com.cip.TermInator.model.Course;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
 
     private Context context;
-    private ArrayList<Course> courseArrayList;
+    private List<Course> courseArrayList;
 
-    public CourseAdapter(Context context, ArrayList<Course> courseArrayList) {
+    public CourseAdapter(Context context, List<Course> courseArrayList) {
         this.context = context;
         this.courseArrayList = courseArrayList;
     }
@@ -61,8 +61,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
         public void setData(Course course){
             course_name.setText(course.getName());
-            course_time_1.setText(course.getClassTime().get(0).getStart());
-            course_time_2.setText(course.getClassTime().get(1).getStart());
+            course_time_1.setText("start");
+            course_time_2.setText("start2");
             course_instructor.setText(course.getInstructor());
             course_units.setText(Integer.toString(course.getUnits()));
         }
