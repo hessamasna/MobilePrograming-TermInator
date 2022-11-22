@@ -10,8 +10,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Database;
 
 import com.cip.TermInator.R;
+import com.cip.TermInator.db.AppDatabase;
 import com.cip.TermInator.model.Course;
 
 import java.util.List;
@@ -20,16 +22,19 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
     private Context context;
     private List<Course> courseArrayList;
+    private AppDatabase db;
 
-    public CourseAdapter(Context context, List<Course> courseArrayList) {
+
+    public CourseAdapter(Context context, List<Course> courseArrayList, AppDatabase db) {
         this.context = context;
         this.courseArrayList = courseArrayList;
+        this.db = db;
     }
 
     @NonNull
     @Override
     public CourseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.course_layout_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.course_layout_item, parent, false);
 
         return new CourseHolder(view);
     }
@@ -42,7 +47,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"clicked"+courseArrayList.get(position).getName(),Toast.LENGTH_SHORT ).show();
+
+                Toast.makeText(context, "clicked" + courseArrayList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Course clickedCourse = courseArrayList.get(position);
+                clickedCourse.setHasCourse(true);
+                db.courseDao().update(clickedCourse);
             }
         });
     }
@@ -68,7 +77,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
             course_units = itemView.findViewById(R.id.course_units);
         }
 
-        public void setData(Course course){
+        public void setData(Course course) {
             course_name_view.setText(course.getName());
             course_time_1.setText("start");
             course_time_2.setText("start2");
