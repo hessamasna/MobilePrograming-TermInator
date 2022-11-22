@@ -1,25 +1,16 @@
 package com.cip.TermInator.model;
 
 public class CourseTime {
-    private int id;
     private String start;
     private String end;
     private String day;
 
-    public CourseTime(int id, String start, String end, String day) {
-        this.id = id;
+    public CourseTime( String start, String end, String day) {
         this.start = start;
         this.end = end;
         this.day = day;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getStart() {
         return start;
@@ -48,8 +39,7 @@ public class CourseTime {
     @Override
     public String toString() {
         return "CourseTime{" +
-                "id=" + id +
-                ", start='" + start + '\'' +
+                "start='" + start + '\'' +
                 ", end='" + end + '\'' +
                 ", day='" + day + '\'' +
                 '}';
