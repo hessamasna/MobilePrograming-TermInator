@@ -3,8 +3,6 @@ package com.cip.TermInator.model;
 import androidx.room.Entity;
 import androidx.room.*;
 
-import java.util.ArrayList;
-
 @Entity
 public class Course {
     @PrimaryKey(autoGenerate = true)
@@ -27,12 +25,15 @@ public class Course {
     private int capacity;
     @ColumnInfo(name = "instructor")
     private String instructor;
-    @ColumnInfo(name = "courseTime")
-    private String courseTime;
+    @ColumnInfo(name = "class_times")
+    private String class_times;
     @ColumnInfo(name = "exam_time")
     private String exam_time;
+    @ColumnInfo(name = "has_course")
+    private boolean hasCourse;
 
-    public Course(int id, String info, String course_id, int course_number, String name, int units, int capacity, String instructor, String courseTime, String exam_time) {
+
+    public Course(int id, String info, String course_id, int course_number, String name, int units, int capacity, String instructor, String class_times, String exam_time) {
         this.id = id;
         this.universityFaculties = "";
         this.info = info;
@@ -42,8 +43,9 @@ public class Course {
         this.units = units;
         this.capacity = capacity;
         this.instructor = instructor;
-        this.courseTime = courseTime;
+        this.class_times = class_times;
         this.exam_time = exam_time;
+        this.hasCourse = false;
     }
 
     public int getId() {
@@ -118,12 +120,12 @@ public class Course {
         this.uid = uid;
     }
 
-    public String getCourseTime() {
-        return courseTime;
+    public String getClass_times() {
+        return class_times;
     }
 
-    public void setCourseTime(String courseTime) {
-        this.courseTime = courseTime;
+    public void setClass_times(String class_times) {
+        this.class_times = class_times;
     }
 
     public String getUniversityFaculties() {
@@ -142,4 +144,30 @@ public class Course {
         this.exam_time = exam_time;
     }
 
+    public boolean isHasCourse() {
+        return hasCourse;
+    }
+
+    public void setHasCourse(boolean hasCourse) {
+        this.hasCourse = hasCourse;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "uid=" + uid +
+                ", universityFaculties='" + universityFaculties + '\'' +
+                ", id=" + id +
+                ", info='" + info + '\'' +
+                ", course_id='" + course_id + '\'' +
+                ", course_number=" + course_number +
+                ", name='" + name + '\'' +
+                ", units=" + units +
+                ", capacity=" + capacity +
+                ", instructor='" + instructor + '\'' +
+                ", class_times='" + class_times + '\'' +
+                ", exam_time='" + exam_time + '\'' +
+                ", hasCourse=" + hasCourse +
+                '}';
+    }
 }
