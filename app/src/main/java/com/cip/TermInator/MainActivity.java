@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCoursesRecyclerView() {
+        AppDatabase db = AppDatabase.getDbInstance(this.getApplicationContext());
+
         RecyclerView recyclerView = findViewById(R.id.Classes_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        CourseAdapter courseAdapter = new CourseAdapter(this, courseList);
+        CourseAdapter courseAdapter = new CourseAdapter(this, courseList,db);
         recyclerView.setAdapter(courseAdapter);
 
     }
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         else
             courseList = db.courseDao().selectUniversityFaculties(key);
 
+        System.out.println(db.courseDao().selectHasCourse());
         setCoursesRecyclerView();
     }
 
@@ -123,4 +127,12 @@ public class MainActivity extends AppCompatActivity {
         String buttonText = b.getText().toString();
         loadCourses(buttonText);
     }
+
+    public void goToWeeklyActivity(View view){
+        Intent secondActivityIntent = new Intent(
+                getApplicationContext(), Weekly.class
+        );
+        startActivity(secondActivityIntent);
+    }
+
 }
