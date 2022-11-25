@@ -36,7 +36,8 @@ public class Weekly extends AppCompatActivity {
 
         Gson gson = new Gson();
         if (db.weekCoursesDao().getWeekCourse(0).size() == 0) {
-            db.weekCoursesDao().deleteAllWeekCourses();
+            weekCourse.setId(0);
+            db.weekCoursesDao().insertWeekCourse(weekCourse);
         }
 
         for (Course course : courses) {

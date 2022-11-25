@@ -18,6 +18,9 @@ public interface CourseDao {
     @Query("SELECT * FROM course WHERE uid = :id")
     Course getCourse(int id);
 
+    @Query("SELECT has_course FROM course WHERE uid = :id")
+    boolean checkCourse(int id);
+
     @Query("SELECT * FROM course WHERE university_faculties LIKE :name")
     List<Course> selectUniversityFaculties(String name);
 
