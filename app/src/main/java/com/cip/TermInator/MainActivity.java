@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         loadUniversityFaculties();
-        initialData();
+//        initialData();
         loadCourses("ALL");
 
         setCoursesRecyclerView();

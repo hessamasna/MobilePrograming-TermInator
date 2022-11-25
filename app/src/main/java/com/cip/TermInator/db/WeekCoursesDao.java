@@ -18,6 +18,31 @@ public interface WeekCoursesDao {
     @Query("SELECT * FROM weekcourses WHERE id = :id")
     List<WeekCourses> getWeekCourse(int id);
 
+    @Query("SELECT :colId FROM weekcourses WHERE id = :id")
+    String getDayCourses(String colId, int id);
+
+    @Query("SELECT day_0 FROM weekcourses WHERE id = :id")
+    String day_0(int id);
+
+    @Query("SELECT day_1 FROM weekcourses WHERE id = :id")
+    String day_1(int id);
+
+    @Query("SELECT day_2 FROM weekcourses WHERE id = :id")
+    String day_2(int id);
+
+    @Query("SELECT day_3 FROM weekcourses WHERE id = :id")
+    String day_3(int id);
+
+    @Query("SELECT day_4 FROM weekcourses WHERE id = :id")
+    String day_4(int id);
+
+    @Query("SELECT day_5 FROM weekcourses WHERE id = :id")
+    String day_5(int id);
+
+    @Query("SELECT day_6 FROM weekcourses WHERE id = :id")
+    String day_6(int id);
+
+
     @Insert
     void insertWeekCourse(WeekCourses... weekCourses);
 

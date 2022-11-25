@@ -15,6 +15,8 @@ import androidx.room.Database;
 import com.cip.TermInator.R;
 import com.cip.TermInator.db.AppDatabase;
 import com.cip.TermInator.model.Course;
+import com.cip.TermInator.model.CourseTime;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -78,9 +80,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         }
 
         public void setData(Course course) {
+            Gson gson = new Gson();
+            CourseTime[] courseTimes = gson.fromJson(String.valueOf(course.getClass_times()), CourseTime[].class);
+
             course_name_view.setText(course.getName());
-            course_time_1.setText("start");
-            course_time_2.setText("start2");
+            course_time_1.setText(courseTimes[0].getStart());
+            course_time_2.setText(courseTimes[0].getEnd());
             course_instructor.setText(course.getInstructor());
             course_units.setText(Integer.toString(course.getUnits()));
         }
