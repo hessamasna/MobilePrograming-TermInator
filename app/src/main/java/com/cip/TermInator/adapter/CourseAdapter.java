@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cip.TermInator.R;
 import com.cip.TermInator.model.Course;
-import com.cip.TermInator.popActivity;
 
 import java.util.List;
 
@@ -43,7 +42,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"clicked"+courseArrayList.get(position).getName(),Toast.LENGTH_SHORT ).show();
+                System.out.println("I love you");
+                //Toast.makeText(context,"clicked"+courseArrayList.get(position).getName(),Toast.LENGTH_SHORT ).show();
             }
         });
     }
