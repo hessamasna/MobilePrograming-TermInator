@@ -127,13 +127,17 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
             public void onClick(View v) {
                 if (db.courseDao().checkCourse(course.uid)) {
                     Toast.makeText(context, "قبلا اضافه شده است", Toast.LENGTH_SHORT).show();
-
                 } else {
-                    Toast.makeText(context, "اضافه شد»" + course.getName(), Toast.LENGTH_SHORT).show();
+                    if (!checkCourseDate(course)) {
+                        Toast.makeText(context, "تداخل زمانی وجود دارد", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "اضافه شد»" + course.getName(), Toast.LENGTH_SHORT).show();
 
-                    course.setHasCourse(true);
-                    db.courseDao().update(course);
-                    myDialog.dismiss();
+                        course.setHasCourse(true);
+                        db.courseDao().update(course);
+                        myDialog.dismiss();
+                    }
+
                 }
 
             }
@@ -141,5 +145,33 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
 
         myDialog.show();
+    }
+
+    private boolean checkCourseDate(Course crs) {
+        Gson gson = new Gson();
+        List<Course> courses = db.courseDao().selectHasCourse();
+
+        if (courses.size() == 0)
+            return true;
+
+        CourseTime[] currentCourseTimes = gson.fromJson(String.valueOf(crs.getClass_times()), CourseTime[].class);
+
+        for (CourseTime currentCourseTime : currentCourseTimes) {
+            for (Course course : courses) {
+                CourseTime[] courseTimes = gson.fromJson(String.valueOf(course.getClass_times()), CourseTime[].class);
+                for (CourseTime courseTime : courseTimes) {
+                    if (courseTime.getDay().equals(currentCourseTime.getDay())) {
+                        if (Double.parseDouble(courseTime.getStart()) < Double.parseDouble(currentCourseTime.getStart()) && Double.parseDouble(courseTime.getEnd()) > Double.parseDouble(currentCourseTime.getStart())) {
+                            return false;
+                        }
+                        if (Double.parseDouble(courseTime.getStart()) < Double.parseDouble(currentCourseTime.getEnd()) || Double.parseDouble(courseTime.getEnd()) > Double.parseDouble(currentCourseTime.getEnd())) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }
