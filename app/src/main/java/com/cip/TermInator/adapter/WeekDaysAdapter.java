@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Dialog;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +48,7 @@ public class WeekDaysAdapter extends RecyclerView.Adapter<WeekDaysAdapter.WeekDa
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeekDaysHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeekDaysHolder holder, @SuppressLint("RecyclerView") int position) {
         String weekDay = week.get(position);
         holder.setData(weekDay, position);
 
@@ -59,16 +61,17 @@ public class WeekDaysAdapter extends RecyclerView.Adapter<WeekDaysAdapter.WeekDa
             week_day_courses_recycler.setAdapter(weekCourseAdapter);
         }
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
 //                Toast.makeText(context, "clicked" + courseArrayList.get(position).getName(), Toast.LENGTH_SHORT).show();
 //                Course clickedCourse = courseArrayList.get(position);
 //                clickedCourse.setHasCourse(true);
 //                db.courseDao().update(clickedCourse);
-//            }
-//        });
+                //showPopup(v, courseArrayList.get(position));
+            }
+        });
     }
 
     @Override
@@ -136,6 +139,53 @@ public class WeekDaysAdapter extends RecyclerView.Adapter<WeekDaysAdapter.WeekDa
         }
 
         return uids;
+    }
+
+    public void showPopup(View v, Course course) {
+        TextView courseName;
+        TextView courseTime;
+        TextView courseExam;
+        Button saveBtn;
+        Button cancelBtn;
+
+        Dialog myDialog = new Dialog(context);
+        myDialog.setContentView(R.layout.activity_remove_popup);
+
+        courseName = (TextView) myDialog.findViewById(R.id.courseName);
+        courseTime = (TextView) myDialog.findViewById(R.id.courseTime);
+        courseExam = (TextView) myDialog.findViewById(R.id.courseExam);
+        cancelBtn = (Button) myDialog.findViewById(R.id.cancelBtn);
+        saveBtn = (Button) myDialog.findViewById(R.id.saveBtn);
+        courseName.setText(course.getName());
+        courseExam.setText(course.getExam_time());
+        courseTime.setText(course.getInfo());
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (db.courseDao().checkCourse(course.uid)) {
+                    Toast.makeText(context, "قبلا اضافه شده است", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(context, "حذف شد»" + course.getName(), Toast.LENGTH_SHORT).show();
+
+                    course.setHasCourse(false);
+                    db.courseDao().update(course);
+                    myDialog.dismiss();
+                }
+
+            }
+        });
+
+
+        myDialog.show();
     }
 
 }
