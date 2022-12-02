@@ -45,7 +45,7 @@ public class Weekly extends AppCompatActivity {
         for (Course course : courses) {
             CourseTime[] courseTimes = gson.fromJson(String.valueOf(course.getClass_times()), CourseTime[].class);
             for (CourseTime courseTime : courseTimes) {
-                weekCourse.concatDay(courseTime.getDay(), course.getUid());
+                weekCourse.concatDay(courseTime.getDay(), course.getUid(),db);
             }
         }
         weekCourse.setId(0);
