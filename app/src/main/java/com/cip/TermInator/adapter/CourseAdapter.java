@@ -3,6 +3,7 @@ package com.cip.TermInator.adapter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
         Dialog myDialog = new Dialog(context);
         myDialog.setContentView(R.layout.activity_add_popup);
+        myDialog.getWindow().setBackgroundDrawableResource(R.drawable.shap);
 
         courseName = (TextView) myDialog.findViewById(R.id.courseName);
         courseTime = (TextView) myDialog.findViewById(R.id.courseTime);

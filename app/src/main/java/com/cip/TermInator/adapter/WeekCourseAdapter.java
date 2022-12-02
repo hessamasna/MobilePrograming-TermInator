@@ -57,7 +57,7 @@ public class WeekCourseAdapter extends RecyclerView.Adapter<WeekCourseAdapter.We
             @Override
             public void onClick(View v) {
                 Course course = db.courseDao().getCourse(weekDay);
-                showPopup2(v, course);
+                showRemovePopup(v, course);
             }
         });
     }
@@ -102,7 +102,7 @@ public class WeekCourseAdapter extends RecyclerView.Adapter<WeekCourseAdapter.We
         context.startActivity(secondActivityIntent);
     }
 
-    public void showPopup2(View v, Course course) {
+    public void showRemovePopup(View v, Course course) {
         TextView courseName;
         TextView courseTime;
         TextView courseExam;
@@ -111,6 +111,7 @@ public class WeekCourseAdapter extends RecyclerView.Adapter<WeekCourseAdapter.We
 
         Dialog myDialog = new Dialog(context);
         myDialog.setContentView(R.layout.activity_remove_popup);
+        myDialog.getWindow().setBackgroundDrawableResource(R.drawable.shap);
 
         courseName = (TextView) myDialog.findViewById(R.id.courseTitle);
         courseTime = (TextView) myDialog.findViewById(R.id.courseDate);
