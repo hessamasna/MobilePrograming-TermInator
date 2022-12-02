@@ -164,7 +164,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
                         if (Double.parseDouble(courseTime.getStart()) < Double.parseDouble(currentCourseTime.getStart()) && Double.parseDouble(courseTime.getEnd()) > Double.parseDouble(currentCourseTime.getStart())) {
                             return false;
                         }
-                        if (Double.parseDouble(courseTime.getStart()) < Double.parseDouble(currentCourseTime.getEnd()) || Double.parseDouble(courseTime.getEnd()) > Double.parseDouble(currentCourseTime.getEnd())) {
+                        if (Double.parseDouble(courseTime.getStart()) < Double.parseDouble(currentCourseTime.getEnd()) && Double.parseDouble(courseTime.getEnd()) > Double.parseDouble(currentCourseTime.getEnd())) {
                             return false;
                         }
                     }
