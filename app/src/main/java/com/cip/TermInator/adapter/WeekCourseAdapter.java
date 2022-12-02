@@ -1,14 +1,20 @@
 package com.cip.TermInator.adapter;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cip.TermInator.MainActivity;
 import com.cip.TermInator.R;
 import com.cip.TermInator.db.AppDatabase;
 import com.cip.TermInator.model.Course;
@@ -42,20 +48,18 @@ public class WeekCourseAdapter extends RecyclerView.Adapter<WeekCourseAdapter.We
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeekCourseHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WeekCourseHolder holder, @SuppressLint("RecyclerView") int position) {
         int weekDay = weekDaysArrayList.get(position);
         holder.setData(weekDay, position);
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Toast.makeText(context, "clicked" + courseArrayList.get(position).getName(), Toast.LENGTH_SHORT).show();
-//                Course clickedCourse = courseArrayList.get(position);
-//                clickedCourse.setHasCourse(true);
-//                db.courseDao().update(clickedCourse);
-//            }
-//        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Course course = db.courseDao().getCourse(weekDay);
+                showPopup2(v, course);
+            }
+        });
     }
 
     @Override
@@ -88,5 +92,55 @@ public class WeekCourseAdapter extends RecyclerView.Adapter<WeekCourseAdapter.We
 //            week_day_courses_recycler.setText("start");
 
         }
+    }
+
+    public void goToMainActivity(View view, Context context){
+        Intent secondActivityIntent = new Intent(
+                context, MainActivity.class
+        );
+        //startActivity(secondActivityIntent);
+        context.startActivity(secondActivityIntent);
+    }
+
+    public void showPopup2(View v, Course course) {
+        TextView courseName;
+        TextView courseTime;
+        TextView courseExam;
+        Button saveBtn;
+        Button cancelBtn;
+
+        Dialog myDialog = new Dialog(context);
+        myDialog.setContentView(R.layout.activity_remove_popup);
+
+        courseName = (TextView) myDialog.findViewById(R.id.courseTitle);
+        courseTime = (TextView) myDialog.findViewById(R.id.courseDate);
+        courseExam = (TextView) myDialog.findViewById(R.id.courseFinal);
+        cancelBtn = (Button) myDialog.findViewById(R.id.cancelBtn2);
+        saveBtn = (Button) myDialog.findViewById(R.id.removeBtn);
+        courseName.setText(course.getName());
+        courseExam.setText(course.getExam_time());
+        courseTime.setText(course.getInfo());
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(context, "حذف شد»" + course.getName(), Toast.LENGTH_SHORT).show();
+                course.setHasCourse(false);
+                db.courseDao().update(course);
+                myDialog.dismiss();
+                goToMainActivity(v,context);
+            }
+        });
+
+
+        myDialog.show();
     }
 }
