@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
 
 import com.cip.TermInator.R;
 import com.cip.TermInator.db.AppDatabase;
@@ -104,7 +103,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         Button cancelBtn;
 
         Dialog myDialog = new Dialog(context);
-        myDialog.setContentView(R.layout.activity_popup);
+        myDialog.setContentView(R.layout.activity_add_popup);
 
         courseName = (TextView) myDialog.findViewById(R.id.courseName);
         courseTime = (TextView) myDialog.findViewById(R.id.courseTime);

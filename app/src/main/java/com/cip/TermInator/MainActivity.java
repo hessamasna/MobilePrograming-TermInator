@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadUniversityFaculties() {
-        universityFaculties.put("Math", "3.json");
-        universityFaculties.put("Physics", "5.json");
-        universityFaculties.put("Ce", "38.json");
+        universityFaculties.put("ریاضی", "3.json");
+        universityFaculties.put("فیزیک", "5.json");
+        universityFaculties.put("کامپیوتر", "38.json");
     }
 
     public void loadCourses(String key) {
