@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.cip.TermInator.adapter.CourseAdapter;
 import com.cip.TermInator.adapter.WeekCourseAdapter;
@@ -56,7 +58,7 @@ public class Weekly extends AppCompatActivity {
     }
 
     private void setCoursesRecyclerView() {
-        List<String> week = Arrays.asList("شنیه", "یک شنیه", "دو شنیه", "سه شنیه", "چهار شنیه", "پنج شنیه", "جمعه");
+        List<String> week = Arrays.asList("شنبه", "یک شنبه", "دو شنبه", "سه شنبه", "چهار شنبه", "پنج شنبه", "جمعه");
 
         AppDatabase db = AppDatabase.getDbInstance(this.getApplicationContext());
 
@@ -67,5 +69,12 @@ public class Weekly extends AppCompatActivity {
         recyclerView.setAdapter(courseAdapter);
 
 
+    }
+
+    public void goToMainActivity(View view){
+        Intent secondActivityIntent = new Intent(
+                getApplicationContext(), MainActivity.class
+        );
+        startActivity(secondActivityIntent);
     }
 }
